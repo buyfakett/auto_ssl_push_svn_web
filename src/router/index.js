@@ -54,6 +54,12 @@ export const constantRoutes = [
         name: '服务器',
         meta: { title: '服务器' }
       },
+      {
+        path: 'ssl',
+        component: () => import('@/views/manage/ssl/index'),
+        name: '证书',
+        meta: { title: '证书' }
+      }
     ]
   },
 

@@ -5,7 +5,7 @@ try {
   ENV_url = importedUrl;
 } catch (error) {
   // 如果导入文件失败，将 ENV_url 设置为空字符串
-  console.error('Error importing url.config:', error);
+  console.error('没有url.config.js文件:', error);
   ENV_url = '';
 }
 'use strict'

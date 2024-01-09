@@ -14,14 +14,24 @@
           <a class="link-type" @click="onEdit(row)">{{ row.id }}</a>
         </template>
       </el-table-column>
-      <el-table-column label="hostname" width="210">
+      <el-table-column label="域名" width="210">
         <template slot-scope="{row}">
-          <a class="link-type" @click="onEdit(row)">{{ row.hostname }}</a>
+          <a class="link-type" @click="onEdit(row)">{{ row.certificate_domain }}</a>
         </template>
       </el-table-column>
-      <el-table-column label="svn地址" align="center">
+      <el-table-column label="创建时间" align="center">
         <template slot-scope="{row}"  >
-          <a class="link-type" @click="onEdit(row)">{{ row.webroot }}</a>
+          <a class="link-type" @click="onEdit(row)">{{ row.register_time }}</a>
+        </template>
+      </el-table-column>
+      <el-table-column label="到期时间" align="center">
+        <template slot-scope="{row}"  >
+          <a class="link-type" @click="onEdit(row)">{{ row.exp_time }}</a>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" align="center">
+        <template slot-scope="{row}"  >
+          <a class="link-type" @click="onEdit(row)">{{ getStatusString(row.status) }}</a>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="210">
@@ -40,11 +50,26 @@
     </el-table>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="hostname" prop="hostname">
-          <el-input v-model="temp.hostname" />
+        <el-form-item label="主域名" prop="certificate_domain">
+          <el-select
+            v-model="appNameValue"
+            filterable
+            placeholder="请选择主域名"
+            @change="fetchData(value,appNameValue)"
+          >
+            <el-option
+              v-for="appNameItem in appNameList"
+              :key="appNameItem.value"
+              :label="appNameItem.label"
+              :value="appNameItem.value"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="svn地址" prop="webroot">
-          <el-input v-model="temp.webroot" />
+        <el-form-item label="域名" prop="certificate_domain">
+          <el-input v-model="temp.certificate_domain" />
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-input v-model="temp.status" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -60,7 +85,7 @@
 </template>
 
 <script>
-import { getList, addServer, editServer, deleteServer } from '@/api/server'
+import { getList, addSsl, editSsl, deleteSsl } from '@/api/ssl'
 
 export default {
   filters: {
@@ -85,8 +110,10 @@ export default {
       },
       temp: {
         id: undefined,
-        hostname: '',
-        webroot: '',
+        certificate_domain: '',
+        register_time: '',
+        exp_time: '',
+        status: '',
       },
     }
   },
@@ -95,7 +122,7 @@ export default {
   },
   methods: {
     createData(){
-      addServer(this.temp)
+      addSsl(this.temp)
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
@@ -109,7 +136,7 @@ export default {
     },
     updateData(){
       console.log(this.temp)
-      editServer(this.temp)
+      editSsl(this.temp)
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
@@ -128,6 +155,16 @@ export default {
         this.listLoading = false
       })
     },
+    getStatusString(status) {
+      switch (status) {
+        case 0:
+          return '不进行续期';
+        case 1:
+          return '正常';
+        case 2:
+          return '新建/过期';
+      }
+    },
     onEdit(row) {
       console.log(row)
       this.temp = Object.assign({}, row) // copy obj
@@ -143,13 +180,15 @@ export default {
     resetTemp() {
       this.temp = {
         id: undefined,
-        hostname: '',
-        webroot: '',
+        certificate_domain: '',
+        register_time: '',
+        exp_time: '',
+        status: '',
       }
     },
     handleDelete(server_id) {
       console.log(server_id)
-      deleteServer(server_id)
+      deleteSsl(server_id)
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
