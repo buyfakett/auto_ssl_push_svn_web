@@ -21,21 +21,21 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/table',
+    redirect: '/manage/server',
     children: [
       {
-        path: 'complex-table',
-        component: () => import('@/views/manage/server/index'),
-        name: 'ssl证书管理系统',
-        meta: {title: 'ssl证书管理系统', icon: 'table', affix: true}
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'dashboard',
+        meta: {title: 'dashboard', icon: 'dashboard', affix: true}
       }
     ]
   },
 
   {
-    path: '/table',
+    path: '/manage',
     component: Layout,
-    redirect: '/table/complex-table',
+    redirect: '/manage/server',
     name: 'ssl证书管理系统',
     meta: {
       title: 'ssl证书管理系统',
@@ -43,11 +43,17 @@ export const constantRoutes = [
     },
     children: [
       {
-        path: 'complex-table',
+        path: 'domain',
+        component: () => import('@/views/manage/domain/index'),
+        name: '主域名配置',
+        meta: { title: '主域名配置' }
+      },
+      {
+        path: 'server',
         component: () => import('@/views/manage/server/index'),
         name: '服务器',
         meta: { title: '服务器' }
-      }
+      },
     ]
   },
 
