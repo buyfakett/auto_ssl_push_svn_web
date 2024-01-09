@@ -14,4 +14,4 @@ tests/**/coverage/
 *.ntvs*
 *.njsproj
 *.sln
-vue.config.js
+url.config.js
