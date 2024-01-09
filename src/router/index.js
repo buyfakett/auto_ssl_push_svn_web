@@ -25,7 +25,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'complex-table',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/manage/server/index'),
         name: 'ssl证书管理系统',
         meta: {title: 'ssl证书管理系统', icon: 'table', affix: true}
       }
@@ -44,7 +44,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'complex-table',
-        component: () => import('@/views/table/index'),
+        component: () => import('@/views/manage/server/index'),
         name: '服务器',
         meta: { title: '服务器' }
       }
