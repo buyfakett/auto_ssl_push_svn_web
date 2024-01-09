@@ -11,7 +11,7 @@
     >
       <el-table-column align="center" label="id" width="95">
         <template slot-scope="{row}">
-          {{ row.id }}
+          <a class="link-type" @click="onEdit(row)">{{ row.id }}</a>
         </template>
       </el-table-column>
       <el-table-column label="hostname" width="210">
@@ -21,7 +21,7 @@
       </el-table-column>
       <el-table-column label="svn地址" align="center">
         <template slot-scope="{row}"  >
-          <span>{{ row.webroot }}</span>
+          <a class="link-type" @click="onEdit(row)">{{ row.webroot }}</a>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="210">
@@ -167,7 +167,5 @@ export default {
 
 
 <style type="scss">
-.link-type{
-  color: blue
-}
+
 </style>
