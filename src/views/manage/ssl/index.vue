@@ -31,7 +31,8 @@
       </el-table-column>
       <el-table-column label="状态" align="center">
         <template slot-scope="{row}"  >
-          <a class="link-type" @click="onEdit(row)">{{ getStatusString(row.status) }}</a>
+<!--          <a class="link-type" @click="onEdit(row)">{{ getStatusString(row.status) }}</a>-->
+          <el-tag :type="getStatusTagType(row.status)">{{ getStatusString(row.status) }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="210">
@@ -163,6 +164,16 @@ export default {
           return '正常';
         case 2:
           return '新建/过期';
+      }
+    },
+    getStatusTagType(status) {
+      switch (status) {
+        case 0:
+          return 'info';
+        case 1:
+          return 'success';
+        case 2:
+          return 'warning';
       }
     },
     onEdit(row) {
