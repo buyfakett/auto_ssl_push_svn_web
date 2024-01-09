@@ -1,4 +1,13 @@
-const { ENV_url } = require('./url.config')
+let ENV_url;
+
+try {
+  const { ENV_url: importedUrl } = require('./url.config');
+  ENV_url = importedUrl;
+} catch (error) {
+  // 如果导入文件失败，将 ENV_url 设置为空字符串
+  console.error('Error importing url.config:', error);
+  ENV_url = '';
+}
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')

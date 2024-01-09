@@ -14,4 +14,4 @@ tests/**/coverage/
 *.ntvs*
 *.njsproj
 *.sln
-url.config.js
+src/views/dashboard/url.config.js
