@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function domainList(params) {
   return request({
     url: '/domain/list',
     method: 'get',

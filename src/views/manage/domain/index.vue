@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { getList, addDomain, editDomain, deleteDomain } from '@/api/domain'
+import { domainList, addDomain, editDomain, deleteDomain } from '@/api/domain'
 
 export default {
   filters: {
@@ -127,7 +127,7 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.getDomainList()
   },
   methods: {
     createData(){
@@ -135,37 +135,30 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
-            this.listLoading = true
-            getList().then(response => {
-              this.list = response.data.items
-              this.listLoading = false
-            })
+            this.getDomainList()
           }
         })
     },
     updateData(){
-      console.log(this.temp)
       editDomain(this.temp)
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
-            this.listLoading = true
-            getList().then(response => {
-              this.list = response.data.items
-              this.listLoading = false
-            })
+            this.getDomainList()
           }
         })
     },
-    fetchData() {
+    getDomainList() {
       this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
-        this.listLoading = false
+      domainList()
+        .then(res => {
+            if (res.code === 0) {
+              this.list = res.data.items
+              this.listLoading = false
+            }
       })
     },
     onEdit(row) {
-      console.log(row)
       this.temp = Object.assign({}, row) // copy obj
       this.dialogFormVisible = true
       this.dialogStatus = 'update'
@@ -187,16 +180,11 @@ export default {
       }
     },
     handleDelete(domain_id) {
-      console.log(domain_id)
       deleteDomain(domain_id)
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
-            this.listLoading = true
-            getList().then(response => {
-              this.list = response.data.items
-              this.listLoading = false
-            })
+            this.getDomainList()
           }
         })
     },

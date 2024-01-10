@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { getList, addServer, editServer, deleteServer } from '@/api/server'
+import { serverList, addServer, editServer, deleteServer } from '@/api/server'
 
 export default {
   filters: {
@@ -91,7 +91,7 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.getServerList()
   },
   methods: {
     createData(){
@@ -99,37 +99,30 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
-            this.listLoading = true
-            getList().then(response => {
-              this.list = response.data.items
-              this.listLoading = false
-            })
+            this.getServerList()
           }
         })
     },
     updateData(){
-      console.log(this.temp)
       editServer(this.temp)
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
-            this.listLoading = true
-            getList().then(response => {
-              this.list = response.data.items
-              this.listLoading = false
-            })
+            this.getServerList()
           }
         })
     },
-    fetchData() {
+    getServerList() {
       this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
-        this.listLoading = false
+      serverList()
+        .then(res => {
+            if (res.code === 0) {
+              this.list = res.data.items
+              this.listLoading = false
+            }
       })
     },
     onEdit(row) {
-      console.log(row)
       this.temp = Object.assign({}, row) // copy obj
       this.dialogFormVisible = true
       this.dialogStatus = 'update'
@@ -148,16 +141,11 @@ export default {
       }
     },
     handleDelete(server_id) {
-      console.log(server_id)
       deleteServer(server_id)
         .then(res => {
           if (res.code === 0) {
             this.dialogFormVisible = false
-            this.listLoading = true
-            getList().then(response => {
-              this.list = response.data.items
-              this.listLoading = false
-            })
+            this.getServerList()
           }
         })
     },

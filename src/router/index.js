@@ -24,10 +24,10 @@ export const constantRoutes = [
     redirect: '/manage/server',
     children: [
       {
-        path: 'dashboard',
+        path: '仪表板',
         component: () => import('@/views/dashboard/index'),
-        name: 'dashboard',
-        meta: {title: 'dashboard', icon: 'dashboard', affix: true}
+        name: '仪表板',
+        meta: {title: '仪表板', icon: 'dashboard', affix: true}
       }
     ]
   },
