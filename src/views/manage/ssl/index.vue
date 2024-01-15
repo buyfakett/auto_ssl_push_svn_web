@@ -8,7 +8,7 @@
       cancel-button-text="取消"
       style="margin-left: 10px"
     >
-      <el-button type="primary" slot="reference" style="margin-bottom: 10px" icon="el-icon-refresh">手动刷新证书</el-button>
+      <el-button type="primary" slot="reference" style="margin-bottom: 10px" icon="el-icon-refresh">手动刷新所有证书</el-button>
     </el-popconfirm>
     <el-table
       v-loading="listLoading"
@@ -43,7 +43,7 @@
           <el-tag :type="getStatusTagType(row.status)">{{ getStatusString(row.status) }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="210">
+      <el-table-column label="操作" align="center" width="330">
         <template slot-scope="{row}">
           <el-button type="primary" icon="el-icon-edit" @click="onEdit(row)">编辑</el-button>
           <el-popconfirm
@@ -54,6 +54,15 @@
             style="margin-left: 10px"
           >
             <el-button type="danger" slot="reference" icon="el-icon-delete">删除</el-button>
+          </el-popconfirm>
+          <el-popconfirm
+            title="确定刷新该条数据吗？"
+            @confirm="single_refresh(row.id)"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            style="margin-left: 10px"
+          >
+            <el-button type="primary" slot="reference" icon="el-icon-refresh">刷新</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
@@ -109,7 +118,7 @@
 </template>
 
 <script>
-import { addSsl, deleteSsl, editSsl, refreshSsl, sslList } from '@/api/ssl'
+import { addSsl, deleteSsl, editSsl, refreshSsl, sslList, singleRefreshSsl } from '@/api/ssl'
 import { domainList } from '@/api/domain'
 import { serverList } from '@/api/server'
 
@@ -155,6 +164,15 @@ export default {
     refresh(){
       this.listLoading = true
       refreshSsl()
+        .then(res => {
+          if (res.code === 0) {
+            this.listLoading = false
+          }
+        })
+    },
+    single_refresh(ssl_id){
+      this.listLoading = true
+      singleRefreshSsl(ssl_id)
         .then(res => {
           if (res.code === 0) {
             this.listLoading = false

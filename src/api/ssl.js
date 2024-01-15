@@ -38,3 +38,10 @@ export function refreshSsl() {
     method: 'post',
   })
 }
+
+export function singleRefreshSsl(ssl_id) {
+  return request({
+    url: `/ssl/refresh/${ssl_id}`,
+    method: 'post',
+  })
+}
