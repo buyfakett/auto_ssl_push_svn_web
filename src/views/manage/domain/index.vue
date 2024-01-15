@@ -159,6 +159,7 @@ export default {
       })
     },
     onEdit(row) {
+      this.resetTemp()
       this.temp = Object.assign({}, row) // copy obj
       this.dialogFormVisible = true
       this.dialogStatus = 'update'

@@ -150,7 +150,7 @@ export default {
         certificate_domain: '',
       },
       domainValue: '',
-      serverValue: '',
+      serverValue: [],
       chooseDomainList: [],
       chooseServerList: [],
       serverData: [],
@@ -253,7 +253,10 @@ export default {
     },
     async onEdit(row) {
       await this.getFromData()
+      this.resetTemp()
       this.temp = Object.assign({}, row) // copy obj
+      this.domainValue = this.temp.first_domain_id
+      this.serverValue = JSON.parse(this.temp.server_ids)
       this.dialogFormVisible = true
       this.dialogStatus = 'update'
     },
@@ -291,6 +294,8 @@ export default {
         server_ids: [],
         certificate_domain: '',
       }
+      this.serverValue = []
+      this.domainValue = ''
     },
     handleDelete(server_id) {
       deleteSsl(server_id)
