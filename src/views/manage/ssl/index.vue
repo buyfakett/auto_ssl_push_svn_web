@@ -167,6 +167,7 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.listLoading = false
+            this.getSslList()
           }
         })
     },
@@ -176,6 +177,7 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.listLoading = false
+            this.getSslList()
           }
         })
     },
