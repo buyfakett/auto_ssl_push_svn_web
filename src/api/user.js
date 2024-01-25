@@ -8,9 +8,10 @@ export function login(data) {
   })
 }
 
-export function logout() {
+export function changeUser(data) {
   return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
+    url: '/user/change',
+    method: 'post',
+    data
   })
 }

@@ -19,12 +19,33 @@
           <a target="_blank" href="https://github.com/buyfakett">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
+          <el-dropdown-item divided @click.native="onChange">
+            <span style="display:block;">修改账号</span>
+          </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-dialog title="修改账号" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="账号" prop="user">
+          <el-input v-model="temp.user" />
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="temp.password" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          关闭
+        </el-button>
+        <el-button type="primary" @click="change">
+          确认
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -32,7 +53,8 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import { removeToken } from '@/utils/auth'
+import { removeToken, setToken } from '@/utils/auth'
+import { changeUser } from '@/api/user'
 
 export default {
   components: {
@@ -45,7 +67,28 @@ export default {
       'avatar'
     ])
   },
+  data() {
+    return {
+      dialogFormVisible: false,
+      temp: {
+        user: '',
+        password: '',
+      },
+    }
+  },
   methods: {
+    onChange() {
+      this.dialogFormVisible = true
+    },
+    change() {
+      changeUser(this.temp)
+        .then(res => {
+          if (res.code === 0) {
+            this.dialogFormVisible = false
+            setToken(res.data.token)
+          }
+        })
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
