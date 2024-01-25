@@ -30,10 +30,10 @@
     </div>
     <el-dialog title="修改账号" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="账号" prop="user">
+        <el-form-item label="新账号" prop="user">
           <el-input v-model="temp.user" />
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="新密码" prop="password">
           <el-input type="password" v-model="temp.password" />
         </el-form-item>
       </el-form>
