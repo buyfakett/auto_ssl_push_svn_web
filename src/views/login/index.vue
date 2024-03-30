@@ -79,8 +79,8 @@ export default {
     }
     return {
       loginForm: {
-        user: '',
-        password: ''
+        user: process.env.NODE_ENV !== 'production' ? 'admin' : '',
+        password: process.env.NODE_ENV !== 'production' ? 'admin123456' : ''
       },
       loginRules: {
         user: [{required: true, trigger: 'blur', validator: validateUsername}],
