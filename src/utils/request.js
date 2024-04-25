@@ -41,7 +41,9 @@ service.interceptors.response.use(
     if (res.code !== 0) {
       Message.error({message: res.message || 'error', type: 'error'});
     } else {
-      Message.success({message: res.message || 'Success', type: 'success'});
+      if (res.message !== '查询成功') {
+        Message.success({message: res.message || 'Success', type: 'success'});
+      }
       return res
     }
   },
