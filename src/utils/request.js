@@ -41,8 +41,12 @@ service.interceptors.response.use(
     if (res.code !== 0) {
       Message.error({message: res.message || 'error', type: 'error'});
     } else {
-      if (res.message !== '查询成功') {
-        Message.success({message: res.message || 'Success', type: 'success'});
+      switch (res.message) {
+        case '查询成功':
+        case '获取版本号成功':
+          break;
+        default:
+          Message.success({message: res.message || 'Success', type: 'success'});
       }
       return res
     }

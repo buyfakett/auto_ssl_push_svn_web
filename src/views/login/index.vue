@@ -59,6 +59,7 @@
 import {validUsername} from '@/utils/validate'
 import {login} from '@/api/user'
 import {setToken} from '@/utils/auth'
+import { getServerVersion } from '@/api/version'
 
 export default {
   name: 'Login',
@@ -118,6 +119,18 @@ export default {
               if (res.code === 0) {
                 setToken(res.data.token)
                 this.$router.push({ path: this.redirect || '/' })
+                // 获取前端和后端的版本号在控制台打印
+                const frontend_token = require('./../../../package.json').version
+                console.log(`当前前端版本号: V${frontend_token}`)
+                getServerVersion()
+                  .then(res => {
+                    if (res.code === 0) {
+                      console.log(`当前服务端版本为: V${res.data.version}`)
+                    }
+                  })
+                  .catch(error => {
+                    console.error('获取服务端版本失败:', error)
+                  })
               }
             })
         }
