@@ -38,6 +38,11 @@
           <a class="link-type" @click="onEdit(row)">{{ row.exp_time }}</a>
         </template>
       </el-table-column>
+      <el-table-column label="证书天数" align="center">
+      <template slot-scope="{row}">
+        <el-progress :text-inside="true" :stroke-width="24" :percentage=row.percentage :status="getStatus(row.percentage)"></el-progress>
+      </template>
+    </el-table-column>
       <el-table-column label="状态" align="center">
         <template slot-scope="{row}">
           <el-tag :type="getStatusTagType(row.status)">{{ getStatusString(row.status) }}</el-tag>
@@ -206,6 +211,15 @@ export default {
             this.listLoading = false
           }
         })
+    },
+    getStatus(percentage) {
+      if (percentage >= 0 && percentage < 10) {
+        return 'exception';
+      } else if (percentage >= 10 && percentage < 30) {
+        return 'warning';
+      } else {
+        return 'success';
+      }
     },
     createData() {
       addSsl(this.temp)
