@@ -34,7 +34,7 @@
           <a class="link-type" @click="onEdit(row)">{{ row.domain_account_secret }}</a>
         </template>
       </el-table-column>
-      <el-table-column label="是否假删除" align="center">
+      <el-table-column label="是否删除" align="center">
         <template slot-scope="{row}"  >
           <el-switch
             v-model="row.is_delete"
