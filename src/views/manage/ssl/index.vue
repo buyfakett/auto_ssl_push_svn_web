@@ -40,7 +40,9 @@
       </el-table-column>
       <el-table-column label="证书天数" align="center">
       <template slot-scope="{row}">
-        <el-progress :text-inside="true" :stroke-width="24" :percentage=getPercentage(row.percentage) :status="getStatus(row.percentage)"></el-progress>
+        <el-tooltip class="item" effect="light" :content="getSurplusDay(row.remainder_days)" placement="top">
+          <el-progress :text-inside="true" :stroke-width="24" :percentage=getPercentage(row.percentage) :status="getStatus(row.percentage)"></el-progress>
+        </el-tooltip>
       </template>
     </el-table-column>
       <el-table-column label="状态" align="center">
@@ -223,6 +225,9 @@ export default {
     },
     getPercentage(percentage) {
       return percentage === null ? 0 : percentage;
+    },
+    getSurplusDay(remainder_days) {
+      return "剩余 " + remainder_days + "  天"
     },
     createData() {
       addSsl(this.temp)
