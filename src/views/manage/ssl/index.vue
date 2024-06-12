@@ -40,7 +40,7 @@
       </el-table-column>
       <el-table-column label="证书天数" align="center">
       <template slot-scope="{row}">
-        <el-progress :text-inside="true" :stroke-width="24" :percentage=row.percentage :status="getStatus(row.percentage)"></el-progress>
+        <el-progress :text-inside="true" :stroke-width="24" :percentage=getPercentage(row.percentage) :status="getStatus(row.percentage)"></el-progress>
       </template>
     </el-table-column>
       <el-table-column label="状态" align="center">
@@ -220,6 +220,9 @@ export default {
       } else {
         return 'success';
       }
+    },
+    getPercentage(percentage) {
+      return percentage === null ? 0 : percentage;
     },
     createData() {
       addSsl(this.temp)
