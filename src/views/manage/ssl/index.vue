@@ -215,7 +215,7 @@ export default {
         })
     },
     getStatus(percentage) {
-      if (percentage >= 0 && percentage < 10) {
+      if (percentage < 10) {
         return 'exception';
       } else if (percentage >= 10 && percentage < 30) {
         return 'warning';
@@ -227,7 +227,7 @@ export default {
       return percentage === null ? 0 : percentage;
     },
     getSurplusDay(remainder_days) {
-      return "剩余 " + remainder_days + "  天"
+      return remainder_days === null ? "您还没申请过呢~" : "剩余 " + remainder_days + "  天"
     },
     createData() {
       addSsl(this.temp)
