@@ -50,9 +50,18 @@
           <el-tag :type="getStatusTagType(row.status)">{{ getStatusString(row.status) }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="330">
+      <el-table-column label="操作" align="center" width="400">
         <template slot-scope="{row}">
           <el-button type="primary" icon="el-icon-edit" @click="onEdit(row)">编辑</el-button>
+          <el-popconfirm
+            :title="getEditSslStatusTitle(row.status)"
+            @confirm="onEditSslStatus(row.id, row.status)"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            style="margin-left: 10px"
+          >
+            <el-button type="danger">{{ row.status === 0 ? '打开' : '关闭' }}</el-button>
+          </el-popconfirm>
           <el-popconfirm
             title="确定删除吗？"
             @confirm="handleDelete(row.id)"
@@ -125,7 +134,7 @@
 </template>
 
 <script>
-import { addSsl, deleteSsl, editSsl, refreshSsl, sslList, singleRefreshSsl } from '@/api/ssl'
+import { addSsl, deleteSsl, editSsl, refreshSsl, sslList, singleRefreshSsl, editSslStatus } from '@/api/ssl'
 import { domainList } from '@/api/domain'
 import { serverList } from '@/api/server'
 
@@ -272,6 +281,29 @@ export default {
         case 2:
           return 'warning'
       }
+    },
+    getEditSslStatusTitle(status) {
+      if (status === 0) {
+        return '确定打开吗？'
+      }
+      return '确定关闭吗？'
+    },
+    onEditSslStatus(id, status) {
+      if (status === 0) {
+        const edit_status = 1
+      } else {
+        const edit_status = 0
+      }
+      const edit_data = {
+        "id": id,
+        "status": edit_status
+      }
+      editSslStatus(edit_data)
+        .then(res => {
+          if (res.code === 0) {
+            this.getSslList()
+          }
+        })
     },
     async onEdit(row) {
       await this.getFromData()

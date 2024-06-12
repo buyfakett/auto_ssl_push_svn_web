@@ -24,6 +24,14 @@ export function editSsl(data) {
   })
 }
 
+export function editSslStatus(data) {
+  return request({
+    url: '/ssl/edit_status',
+    method: 'post',
+    data
+  })
+}
+
 
 export function deleteSsl(ssl_id) {
   return request({
