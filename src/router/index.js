@@ -21,7 +21,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/manage/server',
+    redirect: '/manage/ssl',
     children: [
       {
         path: '仪表板',
@@ -35,7 +35,7 @@ export const constantRoutes = [
   {
     path: '/manage',
     component: Layout,
-    redirect: '/manage/server',
+    redirect: '/manage/ssl',
     name: 'ssl证书管理系统',
     meta: {
       title: 'ssl证书管理系统',
