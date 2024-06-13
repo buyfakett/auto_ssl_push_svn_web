@@ -233,7 +233,7 @@ export default {
       }
     },
     getPercentage(percentage) {
-      return percentage === null ? 0 : percentage;
+      return percentage === null ? 0 : parseFloat(percentage);
     },
     getSurplusDay(remainder_days) {
       return remainder_days === null ? "您还没申请过呢~" : "剩余 " + remainder_days + "  天"
