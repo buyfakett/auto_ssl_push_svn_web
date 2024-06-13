@@ -60,7 +60,7 @@
             cancel-button-text="取消"
             style="margin-left: 10px"
           >
-            <el-button type="danger">{{ row.status === 0 ? '打开' : '关闭' }}</el-button>
+            <el-button type="danger" slot="reference">{{ row.status === 0 ? '打开' : '关闭' }}</el-button>
           </el-popconfirm>
           <el-popconfirm
             title="确定删除吗？"
@@ -289,10 +289,11 @@ export default {
       return '确定关闭吗？'
     },
     onEditSslStatus(id, status) {
+      let edit_status;
       if (status === 0) {
-        const edit_status = 1
+        edit_status = 1
       } else {
-        const edit_status = 0
+        edit_status = 0
       }
       const edit_data = {
         "id": id,
