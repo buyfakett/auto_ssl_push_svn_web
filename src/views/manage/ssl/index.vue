@@ -254,6 +254,10 @@ export default {
       this.temp.server_ids = server_ids
     },
     updateData() {
+      // 如果没有修改的情况，server_ids字段会是字符串类型，需要转换成数组
+      if (typeof this.temp.server_ids === 'string') {
+        this.temp.server_ids = JSON.parse(this.temp.server_ids)
+      }
       editSsl(this.temp)
         .then(res => {
           if (res.code === 0) {
