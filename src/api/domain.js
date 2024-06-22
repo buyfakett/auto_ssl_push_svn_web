@@ -8,6 +8,13 @@ export function domainList(params) {
   })
 }
 
+export function domainManufacturerList() {
+  return request({
+    url: '/domain/manufacturer/list',
+    method: 'get'
+  })
+}
+
 export function addDomain(data) {
   return request({
     url: '/domain/add',

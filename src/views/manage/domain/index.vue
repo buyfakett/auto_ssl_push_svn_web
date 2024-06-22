@@ -21,7 +21,7 @@
       </el-table-column>
       <el-table-column label="厂商" align="center">
         <template slot-scope="{row}"  >
-          <a class="link-type" @click="onEdit(row)">{{ row.domain_manufacturer }}</a>
+          <a class="link-type" @click="onEdit(row)">{{ getDomain(row.domain_manufacturer) }}</a>
         </template>
       </el-table-column>
       <el-table-column label="key" align="center">
@@ -64,7 +64,18 @@
           <el-input v-model="temp.domain" />
         </el-form-item>
         <el-form-item label="厂商" prop="domain_manufacturer">
-          <el-input v-model="temp.domain_manufacturer" />
+          <el-select
+            v-model="manufacturerValue"
+            placeholder="请选择厂商"
+            @change="changeManufacturer(manufacturerValue)"
+          >
+            <el-option
+              v-for="manufacturer in manufacturerChoiceList"
+              :key="manufacturer.value"
+              :label="manufacturer.label"
+              :value="manufacturer.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="key" prop="domain_account_key">
           <el-input v-model="temp.domain_account_key" />
@@ -93,7 +104,7 @@
 </template>
 
 <script>
-import { domainList, addDomain, editDomain, deleteDomain } from '@/api/domain'
+import { domainList, addDomain, editDomain, deleteDomain, domainManufacturerList } from '@/api/domain'
 
 export default {
   filters: {
@@ -116,6 +127,8 @@ export default {
         update: '编辑',
         create: '新增'
       },
+      manufacturerChoiceList: [],
+      manufacturerValue: "",
       temp: {
         id: undefined,
         domain: '',
@@ -128,8 +141,26 @@ export default {
   },
   created() {
     this.getDomainList()
+    this.getManufacturerList()
   },
   methods: {
+    getDomain(domain_manufacturer){
+      // 使用find方法找到匹配的项
+      const foundItem = this.manufacturerChoiceList.find(item => item.value === domain_manufacturer);
+      // 如果找到了，返回label，否则返回空字符串或null
+      return foundItem ? foundItem.label : '未知厂商: {{ domain_manufacturer }}';
+    },
+    getManufacturerList(){
+      domainManufacturerList()
+        .then(res => {
+            if (res.code === 0) {
+              this.manufacturerChoiceList = res.data
+            }
+          })
+    },
+    changeManufacturer(manufacturerValue){
+      this.temp.domain_manufacturer = manufacturerValue
+    },
     createData(){
       addDomain(this.temp)
         .then(res => {
