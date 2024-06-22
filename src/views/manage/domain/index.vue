@@ -194,6 +194,7 @@ export default {
       this.temp = Object.assign({}, row) // copy obj
       this.dialogFormVisible = true
       this.dialogStatus = 'update'
+      this.manufacturerValue = row.domain_manufacturer
     },
     onAdd() {
       this.resetTemp()
