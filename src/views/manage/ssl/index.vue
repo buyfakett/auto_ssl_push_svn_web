@@ -89,10 +89,10 @@
       >
         <el-form-item label="主域名" prop="first_domain_id">
           <el-select
-            v-model="domainValue"
+            v-model="domainValueId"
             filterable
             placeholder="请选择主域名"
-            @change="changeDomain(domainValue)"
+            @change="changeDomain(domainValueId)"
           >
             <el-option
               v-for="domain in chooseDomainList"
@@ -165,7 +165,7 @@ export default {
         server_ids: [],
         certificate_domain: '',
       },
-      domainValue: '',
+      domainValueId: undefined,
       serverValue: [],
       chooseDomainList: [],
       chooseServerList: [],
@@ -249,6 +249,8 @@ export default {
     },
     changeDomain(first_domain_id) {
       this.temp.first_domain_id = first_domain_id
+      let foundDomain = this.domainData.find(i => i.id === first_domain_id);
+      this.temp.certificate_domain = foundDomain.domain;
     },
     changeServer(server_ids) {
       this.temp.server_ids = server_ids
@@ -314,7 +316,7 @@ export default {
       await this.getFromData()
       this.resetTemp()
       this.temp = Object.assign({}, row) // copy obj
-      this.domainValue = this.temp.first_domain_id
+      this.domainValueId = this.temp.first_domain_id
       this.serverValue = JSON.parse(this.temp.server_ids)
       this.dialogFormVisible = true
       this.dialogStatus = 'update'
@@ -326,11 +328,12 @@ export default {
       this.dialogStatus = 'create'
     },
     async getFromData(){
+      this.listLoading = true
       await this.getDomainList()
       await this.getServerList()
       this.chooseServerList = []
       this.chooseDomainList = []
-      this.domainValue = undefined
+      this.domainValueId = undefined
       this.serverValue = []
       for (var domain in this.domainData) {
         this.chooseDomainList.push({
@@ -344,6 +347,7 @@ export default {
           label: this.serverData[server]['hostname']
         })
       }
+      this.listLoading = false
     },
     // 清除数据
     resetTemp() {
@@ -354,6 +358,7 @@ export default {
         certificate_domain: '',
       }
       this.serverValue = []
+      this.domainValueId = undefined
       this.domainValue = ''
     },
     handleDelete(server_id) {
